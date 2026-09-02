@@ -1,2 +1,4 @@
 local-worker/.env
 local-worker/node_modules/
+local-worker/worker.log
+local-worker/worker-error.log
