@@ -1,0 +1,10 @@
+create table public.conversations (id uuid primary key default gen_random_uuid(), owner_id uuid not null references auth.users(id) on delete cascade, project_id uuid not null references public.projects(id) on delete cascade, title text not null default '新對話', created_at timestamptz default now());
+alter table public.messages add column conversation_id uuid references public.conversations(id) on delete cascade;
+create table public.message_attachments (id uuid primary key default gen_random_uuid(), message_id uuid not null references public.messages(id) on delete cascade, file_id uuid not null references public.files(id) on delete cascade, created_at timestamptz default now());
+create table public.task_files (task_id uuid not null references public.tasks(id) on delete cascade, file_id uuid not null references public.files(id) on delete cascade, primary key(task_id,file_id));
+alter table public.conversations enable row level security; alter table public.message_attachments enable row level security; alter table public.task_files enable row level security;
+create policy "own conversations" on public.conversations for all using(owner_id=auth.uid()) with check(owner_id=auth.uid());
+create policy "own message attachments" on public.message_attachments for select using(exists(select 1 from public.messages m where m.id=message_id and m.owner_id=auth.uid()));
+create policy "own task files" on public.task_files for select using(exists(select 1 from public.tasks t where t.id=task_id and t.owner_id=auth.uid()));
+grant select,insert,update,delete on public.conversations,public.message_attachments,public.task_files to authenticated;
+grant all privileges on public.conversations,public.message_attachments,public.task_files to service_role;
