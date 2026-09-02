@@ -3,55 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="CK 的個人首頁" />
-    <title>CK — 個人首頁</title>
+    <meta name="description" content="CK Web — 以 Codex CLI 驅動的 AI 工作平台" />
+    <title>CK Web — AI 工作平台</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main>
-      <nav class="nav" aria-label="主要導覽">
-        <a class="wordmark" href="#top" aria-label="CK 首頁">CK<span>•</span></a>
-        <a class="nav-link" href="#contact">一起做點有意思的事 ↗</a>
-      </nav>
-
-      <section class="hero" id="top">
-        <p class="eyebrow">PERSONAL FIELD NOTES / 2026</p>
-        <h1>把好奇心<br />變成<span>能用的東西。</span></h1>
-        <div class="hero-bottom">
-          <p>嗨，我是 CK。<br />我在數位世界裡觀察、學習，並持續創作。</p>
-          <a class="round-link" href="#about" aria-label="認識 CK">
-            <span>向下探索</span><b>↓</b>
-          </a>
-        </div>
-        <div class="orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="noise" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="nav"><a class="wordmark" href="./" aria-label="CK Web 首頁">CK<span>•</span>WEB</a><p class="nav-note">PERSONAL AI WORKSPACE</p><button class="text-button hidden" id="sign-out" type="button">登出 ↗</button></header>
+      <section class="auth-view" id="auth-view">
+        <div class="intro"><p class="eyebrow">YOUR WORK, IN MOTION</p><h1>讓想法<br />開始<span>工作。</span></h1><p>建立任務、保存提示詞，並交給你自己的 Codex CLI 工作器執行。</p></div>
+        <div class="auth-card"><p class="section-label">登入工作空間</p><form id="email-form"><label>電子郵件<input id="email" type="email" autocomplete="email" required placeholder="you@example.com" /></label><label>密碼<input id="password" type="password" autocomplete="current-password" required minlength="8" placeholder="至少 8 個字元" /></label><button class="primary" type="submit">以 Email 登入</button></form><button class="secondary" id="sign-up" type="button">建立新帳號</button><div class="or"><span>或</span></div><button class="google" id="google-login" type="button">G　使用 Google 繼續</button><p class="form-message" id="auth-message" role="status"></p></div>
       </section>
-
-      <section class="statement" id="about">
-        <p class="section-label">01 / 關於</p>
-        <div>
-          <p class="large-copy">我相信最好的作品，<br />從一個<span>認真的問題</span>開始。</p>
-          <p class="body-copy">這裡收集我正在研究的事、完成的作品，以及下一個還沒成形的想法。比起把自己定義成一個標籤，我更喜歡保持在探索中。</p>
+      <section class="workspace hidden" id="workspace">
+        <div class="welcome"><div><p class="eyebrow">WORKSPACE / LIVE</p><h1>你好，<span id="user-name">創作者</span>。</h1></div><button class="primary compact" id="open-task" type="button">建立工作任務 <b>+</b></button></div>
+        <section class="stats" aria-label="工作空間摘要"><div><span id="project-count">0</span><p>個專案</p></div><div><span id="active-count">0</span><p>進行中任務</p></div><div><span id="prompt-count">0</span><p>已存提示詞</p></div><div class="worker-state"><i id="worker-dot"></i><p id="worker-label">等待工作器</p></div></section>
+        <div class="workspace-grid">
+          <section class="panel task-panel"><div class="panel-head"><p class="section-label">工作任務</p><button class="text-button" id="show-all-tasks" type="button">查看全部</button></div><div class="task-list" id="task-list"><p class="empty">尚未建立任務。</p></div></section>
+          <section class="panel prompt-panel"><div class="panel-head"><p class="section-label">提示詞庫</p><button class="text-button" id="open-prompt" type="button">新增提示詞</button></div><div class="prompt-list" id="prompt-list"><p class="empty">把好用的提示詞放在這裡。</p></div></section>
+          <section class="panel project-panel"><div class="panel-head"><p class="section-label">專案</p><button class="text-button" id="open-project" type="button">新增專案</button></div><div class="project-list" id="project-list"><p class="empty">先建立一個專案，讓工作有歸屬。</p></div></section>
+          <section class="panel output-panel"><div class="panel-head"><p class="section-label">最近產出</p><span class="mono">CODEX CLI</span></div><div class="output-list" id="output-list"><p class="empty">完成的任務會在這裡留下成果。</p></div></section>
         </div>
-      </section>
-
-      <section class="focus" id="work">
-        <p class="section-label">02 / 正在投入</p>
-        <div class="focus-grid">
-          <article><span>01</span><h2>設計</h2><p>把複雜的事整理成清晰、好用的體驗。</p></article>
-          <article><span>02</span><h2>技術</h2><p>善用工具，讓想法從腦中走到現實。</p></article>
-          <article><span>03</span><h2>學習</h2><p>對新知保持開放，持續更新自己的地圖。</p></article>
-        </div>
-      </section>
-
-      <section class="contact" id="contact">
-        <p class="section-label">03 / 聯絡</p>
-        <h2>有個想法？<br /><a href="mailto:hello@example.com">來聊聊。↗</a></h2>
-        <p>目前開放交流、合作與新的可能性。</p>
       </section>
     </main>
-    <footer><span>© 2026 CK</span><span>BUILT WITH CURIOSITY</span></footer>
+    <dialog id="task-dialog"><form class="modal" id="task-form"><button class="close" type="button" data-close>×</button><p class="section-label">新增工作任務</p><h2>交給 Codex。</h2><label>任務名稱<input name="title" required maxlength="120" placeholder="例如：整理本週研究筆記" /></label><label>所屬專案<select name="project_id" id="task-project"><option value="">未分類</option></select></label><label>工作說明<textarea name="instructions" required maxlength="8000" placeholder="描述想完成的事、提供背景與輸出要求。"></textarea></label><label class="file-label">附加檔案 <input name="files" id="task-files" type="file" multiple /></label><button class="primary" type="submit">加入執行佇列 →</button><p class="form-message" role="status"></p></form></dialog>
+    <dialog id="project-dialog"><form class="modal" id="project-form"><button class="close" type="button" data-close>×</button><p class="section-label">新增專案</p><h2>給工作一個名字。</h2><label>專案名稱<input name="name" required maxlength="100" placeholder="例如：CK Web" /></label><label>簡短說明<textarea name="description" maxlength="500" placeholder="這個專案想完成什麼？"></textarea></label><button class="primary" type="submit">建立專案 →</button><p class="form-message" role="status"></p></form></dialog>
+    <dialog id="prompt-dialog"><form class="modal" id="prompt-form"><button class="close" type="button" data-close>×</button><p class="section-label">儲存提示詞</p><h2>留下有效的說法。</h2><label>標題<input name="title" required maxlength="120" placeholder="例如：研究摘要" /></label><label>提示詞內容<textarea name="content" required maxlength="12000" placeholder="寫下可重複使用的提示詞。"></textarea></label><button class="primary" type="submit">儲存提示詞 →</button><p class="form-message" role="status"></p></form></dialog>
+    <template id="task-template"><article class="task"><div><span class="status"></span><h3></h3><p class="task-meta"></p></div><time></time></article></template>
+    <script src="supabase-config.js"></script><script type="module" src="app.js"></script>
   </body>
 </html>
