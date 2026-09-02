@@ -4,9 +4,9 @@
 
 ## 啟用步驟
 
-1. 在 Supabase SQL Editor 依序執行 `supabase/migrations/001_ckweb.sql` 與 `supabase/migrations/002_worker_grants.sql`。
+1. 在 Supabase SQL Editor 依編號依序執行 `supabase/migrations/` 下的全部檔案（`001` 到 `007`）。
 2. 在 Authentication 啟用 Email 與 Google，Google 的 redirect URL 加入 `https://ck2008.github.io/ckweb/`。
-3. 僅在本機 `local-worker/.env` 設定 Supabase `service_role` key（絕不提交或貼到前端）。
+3. 僅在本機 `local-worker/.env` 設定 Supabase `service_role` key（絕不提交或貼到前端），並把 `WORKER_OWNER_ID` 設為你自己的 auth user uuid。
 4. 在 `local-worker` 執行 `npm install`，再以 `npm start` 啟動已登入 Codex CLI 的輪詢工作器。
 
 ## 工作器開機自動啟動
@@ -31,5 +31,11 @@ $s.Save()
 ```
 
 側邊欄的工作器指示燈由 `workers.last_seen_at` 推算：超過 30 秒沒有心跳就顯示離線與離線時長，不再是固定的綠燈。
+
+## 工作器執行範圍
+
+`codex exec` 以 `approval: never` 與 `sandbox: workspace-write` 執行，對 `WORKSPACE_ROOT` 有寫入權限。因此 `claim_next_task` 只會領取工作器綁定 owner 的任務（`workers.owner_id`），未綁定的工作器什麼都不領。
+
+這代表陌生帳號即使註冊成功也碰不到本機 Codex。若不需要他人註冊，仍建議在 Supabase 的 Authentication → Sign In / Providers 關閉開放註冊，把風險面再縮一層。
 
 首次版本透過工作器主動輪詢任務，不需將本機 port 暴露到網路。Cloudflare Tunnel 可保留給日後受 Cloudflare Access 保護的管理入口。
